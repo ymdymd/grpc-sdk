@@ -24,6 +24,19 @@ RUN (cd /tmp/grpc \
     && make install-grpc-cli \
     ) && rm -rf /tmp/grpc
 
+# install sudo
+RUN apt-get update && \
+    apt-get install -y sudo 
 
+# add sudo user
+ENV USER=grpc-sdk
+RUN groupadd -g 1000 ${USER} && \
+    useradd  -g      ${USER} -G sudo -m -s /bin/bash ${USER} && \
+    echo "${USER}:${USER}" | chpasswd
 
+RUN echo "Defaults visiblepw"             >> /etc/sudoers
+RUN echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER ${USER}
+WORKDIR /home/${USER}
 
