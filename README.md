@@ -1,5 +1,5 @@
 # grpc-sdk
-alpine base gRPC SDK
+gRPC SDK
 
 ## build container
 ```sh
